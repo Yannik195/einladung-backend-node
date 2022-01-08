@@ -1,0 +1,14 @@
+apiVersion: 1.0.0
+basePath: "/api"
+produces:
+  - application/json
+apis:
+  - path "/events"
+    operations:
+      - method: GET
+        summary: get all events
+        notes: get all events
+        type: Event
+
+
+see more: https://gist.github.com/crrobinson14/8290174
