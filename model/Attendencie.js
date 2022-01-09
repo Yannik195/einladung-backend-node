@@ -13,6 +13,13 @@ const attendencieSchema = new mongoose.Schema({
         min: 6,
         max: 255,
     },
+    checkedIn: {
+        type: Boolean,
+        default: false,
+    },
+    checkedInTime: {
+        type: String,
+    }
 })
 
 

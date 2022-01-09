@@ -12,5 +12,20 @@ router.get("/:eventId", async (req, res) => {
     }
 })
 
+//check in
+router.put("/checkin/:attendencieId", auth, async (req, res) => {
+    console.log("Checkin: " + req.params.attendencieId)
+    console.log(req.body)
+    try {
+        const attendencie = await Attendencie.findOne({ _id: req.params.attendencieId })
+        attendencie.checkedIn = req.body.checkedIn
+        attendencie.checkedInTime = Date.now()
+        await attendencie.save()
+        res.send(attendencie)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
 
 module.exports = router

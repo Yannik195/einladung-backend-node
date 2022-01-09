@@ -38,6 +38,7 @@ const organizerRoutes = require("./routes/organizers")
 const mailchimpRoutes = require("./routes/mailchimp")
 const attendencies = require("./routes/attendencies")
 const attendee = require("./routes/attendee")
+const mail = require("./routes/mail/mail")
 
 //Route Middlewares
 app.use("/api/auth", authRoutes)
@@ -50,5 +51,6 @@ app.use("/api/organizers", organizerRoutes)
 app.use("/api/mailchimp", mailchimpRoutes)
 app.use("/api/attendencies", attendencies)
 app.use("/api/attendee", attendee)
+app.use("/api/mail", mail.router)
 
 app.listen(3000, () => console.log("Server running"))

@@ -13,11 +13,22 @@ router.get("/", auth, async (req, res) => {
     }
 })
 
-//Get one event
+//Get one event by subdomain
 router.get("/subdomain/:subdomain", async (req, res) => {
-    console.log("Get event")
+    console.log("Get event by subdomain")
     try {
         const event = await Event.findOne({ subdomain: req.params.subdomain })
+        res.send(event)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
+//get one event by id
+router.get("/eventId/:eventId", auth, async (req, res) => {
+    console.log("Get eventby id")
+    try {
+        const event = await Event.findOne({ _id: req.params.eventId })
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
