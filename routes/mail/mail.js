@@ -15,8 +15,13 @@ async function sendMail(attendencie) {
         port: 465,
         secure: true,
         auth: {
+<<<<<<< HEAD
             user: process.env.UNITED_DOMAIN_EMAIL_USERNAME,
             pass: process.env.UNITED_DOMAIN_EMAIL_PASSWORD,
+=======
+            user: "einladung-app-0001",
+            pass: "ufn.RMH3tqg5dnj3ymt",
+>>>>>>> 6a91e933c4b9cc5c83f8ca2ea8e3584130c6209e
         },
     });
 
@@ -39,9 +44,27 @@ async function sendMail(attendencie) {
     } catch (err) {
         console.log(err)
     }
+<<<<<<< HEAD
 
     //TODO delete image
 
+=======
+}
+
+
+
+try {
+    sendMail({
+        "_id": "61d091d2c6c44da30c535e30",
+        "eventId": "61d0886919326c9f70bdc1e0",
+        "attendeeId": "61d091d2c6c44da30c535e2e",
+        "__v": 0,
+        "checkedInTime": "1641741595115",
+        "checkedIn": true
+    })
+} catch (err) {
+    console.log(err)
+>>>>>>> 6a91e933c4b9cc5c83f8ca2ea8e3584130c6209e
 }
 exports.sendMail = sendMail
 exports.router = router
