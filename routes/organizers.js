@@ -1,7 +1,6 @@
 const Organizer = require("../model/Organizer")
 const router = require("express").Router()
 const auth = require("./verifyToken")
-const test = require("./test")
 
 
 //Get one organizer, by jwt id

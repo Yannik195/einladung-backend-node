@@ -66,6 +66,4 @@ router.get("/cookie", (req, res) => {
     res.send()
 })
 
-
-
 module.exports = router
