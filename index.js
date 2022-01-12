@@ -1,16 +1,18 @@
 const express = require("express")
 const bodyParser = require("body-parser");
+const cors = require('cors')
+
 const app = express()
 require('dotenv').config()
 const mongoose = require("mongoose")
 
-const cookieParser = require('cookie-parser');
-app.use(cookieParser());
-
 //CORS
-var cors = require('cors')
-app.use(cors())
-
+app.use(cors({
+    origin: [
+        'http://localhost:8080',
+        'https://localhost:8080'
+    ],
+}));
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECT,
@@ -38,7 +40,6 @@ const organizerRoutes = require("./routes/organizers")
 const mailchimpRoutes = require("./routes/mailchimp")
 const attendencies = require("./routes/attendencies")
 const attendee = require("./routes/attendee")
-const mail = require("./routes/mail/mail")
 
 //Route Middlewares
 app.use("/api/auth", authRoutes)
@@ -51,6 +52,5 @@ app.use("/api/organizers", organizerRoutes)
 app.use("/api/mailchimp", mailchimpRoutes)
 app.use("/api/attendencies", attendencies)
 app.use("/api/attendee", attendee)
-app.use("/api/mail", mail.router)
 
 app.listen(3000, () => console.log("Server running"))

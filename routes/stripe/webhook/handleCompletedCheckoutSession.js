@@ -1,13 +1,15 @@
 const Attendee = require("../../../model/Attendee")
 const Attendencie = require("../../../model/Attendencie")
-const sendTicketViaMail = require("../../mail/mail")
+const Event = require("../../../model/Event")
+const { sendTicket } = require("../../../service/ticket/ticket")
 
 exports.handleCompletedCheckoutSession = async (session) => {
-    console.log(`User ${session.customer_details.email} succesfully payed for the event`)
-    console.log(JSON.stringify(session));
+    const event = await Event.findOne({ _id: session.metadata.eventId })
 
     const attendee = new Attendee({
         email: session.customer_details.email,
+        firstname: session.metadata.firstname,
+        lastname: session.metadata.lastname,
         stripeCustomerId: session.customer,
     })
 
@@ -21,19 +23,9 @@ exports.handleCompletedCheckoutSession = async (session) => {
         })
         try {
             const savedAttendencie = await attendencie.save()
-            //TODO send mail with qr code to attendee
-            //email
-            //event details
-            //qr code
-            //refund link?
-            //query for event
-            try {
-                sendTicketViaMail.sendMail(savedAttendencie)
-            } catch (err) {
-                console.log(err)
-            }
-
             console.log(savedAttendencie)
+
+            sendTicket()
         } catch (err) {
             console.log(err)
         }

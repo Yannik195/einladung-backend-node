@@ -89,15 +89,13 @@ router.get("/accounts/:accountId", async (req, res) => {
 
 //Buy Ticket
 router.post("/buy-ticket", async (req, res) => {
-    console.log("Buy ticket")
-
+    console.log("buy ticket")
     try {
         const event = await Event.findOne({ subdomain: req.body.subdomain })
-        console.log(event)
         const organizer = await Organizer.findOne({ id: event.organizerId })
-        console.log(event.id)
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
+            customer_email: req.body.email,
             line_items: [{
                 name: event.name,
                 amount: event.price * 100,
@@ -112,6 +110,8 @@ router.post("/buy-ticket", async (req, res) => {
             },
             metadata: {
                 eventId: event.id,
+                firstname: req.body.firstname,
+                lastname: req.body.lastname,
             },
             mode: 'payment',
             success_url: `http://localhost:8080/event/${event.subdomain}?success=true`,
