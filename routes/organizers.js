@@ -5,7 +5,6 @@ const auth = require("./verifyToken")
 
 //Get one organizer, by jwt id
 router.get("/", auth, async (req, res) => {
-    test.testFunction()
     try {
         const organizer = await Organizer.findOne({ _id: req.user.userId })
         res.send({

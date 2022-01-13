@@ -1,15 +1,22 @@
 const mongoose = require("mongoose")
 
 const organizerSchema = new mongoose.Schema({
-    name: {
+    firstname: {
         type: String,
-        min: 6,
+        max: 255,
+    },
+    lastname: {
+        type: String,
         max: 255,
     },
     email: {
         type: String,
         required: true,
         min: 6,
+        max: 255,
+    },
+    company: {
+        type: String,
         max: 255,
     },
     connectedAccountId: {
