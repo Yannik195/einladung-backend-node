@@ -1,7 +1,7 @@
 const axios = require('axios')
 const qrcode = require("../qrcode/qrcode")
 
-const sendTicket = async function () {
+const sendTicket = async function (event, attendee, attendencie, organizer) {
     dataUrl = await qrcode.generateQRCode("123")
     axios({
         method: 'post',
@@ -9,11 +9,14 @@ const sendTicket = async function () {
         data: {
             "TemplateId": 26680664,
             "TemplateModel": {
-                "name": "Yannik Simon",
-                "company": {
-                    "name": "ACME"
-                },
-                "product_name": "einladung.app"
+                "product_name": "einladung.app",
+                "attendee_name": `${attendee.firstname} ${attendee.lastname}`,
+                "event_name": event.name,
+                "event_price": event.price,
+                "organizer_name": `${organizer.firstname} ${organizer.lastname}`,
+                "event_subdomain": event.subdomain,
+                "event_date": event.date,
+                "event_time": event.time,
             },
             Attachments: [
                 {
@@ -24,24 +27,14 @@ const sendTicket = async function () {
                 },
             ],
             "From": "einladung.app <mail@einladung.app>",
-            "To": "mail@einladung.app",
-            "Tag": "Invitation",
-            "ReplyTo": "reply@example.com",
-            "Metadata": {
-                "Color": "blue",
-                "Client-Id": "12345"
-            },
-            "Headers": [
-                {
-                    "Name": "CUSTOM-HEADER",
-                    "Value": "value"
-                }
-            ],
+            "To": attendee.email,
+            "Tag": "Ticket",
+            "ReplyTo": "support@einladung.app",
             "TrackOpens": true,
             "TrackLinks": "HtmlOnly",
             "MessageStream": "outbound"
         }, headers: {
-            "X-Postmark-Server-Token": "247ee0fa-daea-4bb8-a933-919800ee4344"
+            "X-Postmark-Server-Token": process.env.POSTMARK_API_KEY
         }
     }).then(res => {
         console.log(`statusCode: ${res.status}`)

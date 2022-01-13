@@ -110,6 +110,7 @@ router.post("/buy-ticket", async (req, res) => {
             },
             metadata: {
                 eventId: event.id,
+                organizerId: organizer.id,
                 firstname: req.body.firstname,
                 lastname: req.body.lastname,
             },
