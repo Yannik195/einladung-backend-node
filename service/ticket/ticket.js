@@ -2,7 +2,7 @@ const axios = require('axios')
 const qrcode = require("../qrcode/qrcode")
 
 const sendTicket = async function (event, attendee, attendencie, organizer) {
-    dataUrl = await qrcode.generateQRCode("123")
+    dataUrl = await qrcode.generateQRCode(attendencie.id)
     axios({
         method: 'post',
         url: 'https://api.postmarkapp.com/email/withTemplate',
@@ -14,9 +14,13 @@ const sendTicket = async function (event, attendee, attendencie, organizer) {
                 "event_name": event.name,
                 "event_price": event.price,
                 "organizer_name": `${organizer.firstname} ${organizer.lastname}`,
+                "organizer_email": organizer.email,
                 "event_subdomain": event.subdomain,
                 "event_date": event.date,
                 "event_time": event.time,
+                "event_address": event.address,
+                "attendencie_id": attendencie.id,
+                "attendencie_bought_at": attendencie.boughtAt,
             },
             Attachments: [
                 {

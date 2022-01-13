@@ -19,6 +19,10 @@ const attendencieSchema = new mongoose.Schema({
     },
     checkedInTime: {
         type: String,
+    },
+    boughtAt: {
+        type: Date,
+        default: Date.now(),
     }
 })
 
