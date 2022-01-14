@@ -2,7 +2,7 @@ const Event = require("../../model/Event")
 const Organizer = require("../../model/Organizer")
 const router = require("express").Router()
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
-const auth = require("../verifyToken")
+const auth = require("../auth/verifyToken")
 
 
 

@@ -12,6 +12,7 @@ const eventSchema = new mongoose.Schema({
         required: true,
         min: 6,
         max: 255,
+        validate: /^[a-z0-9]*$/
     },
     description: {
         type: String,

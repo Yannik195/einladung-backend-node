@@ -1,6 +1,6 @@
-const Event = require("../model/Event")
+const Event = require("../../model/Event")
 const router = require("express").Router()
-const auth = require("./verifyToken")
+const auth = require("../auth/verifyToken")
 
 
 //Get all events of specific organizer (specified in jwt)
@@ -39,6 +39,11 @@ router.get("/eventId/:eventId", auth, async (req, res) => {
 router.post("/", auth, async (req, res) => {
     console.log("create event")
     console.log(req.body)
+
+    //Check if subdomain already exists
+    const subdomainExists = Event.findOne({ subdomain: req.body.subdomain })
+    if (subdomainExists) res.status(400).send("Subdomain already exists")
+
     const event = new Event({
         name: req.body.name,
         subdomain: req.body.subdomain,

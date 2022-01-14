@@ -1,6 +1,6 @@
-const Attendencie = require("../model/Attendencie")
+const Attendencie = require("../../model/Attendencie")
 const router = require("express").Router()
-const auth = require("./verifyToken")
+const auth = require("../auth/verifyToken")
 
 //Get all attendencies from specified event
 router.get("/:eventId", async (req, res) => {
