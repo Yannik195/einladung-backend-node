@@ -4,7 +4,7 @@ const Organizer = require("../../model/Organizer")
 const bcrypt = require("bcryptjs")
 const { validateRegister } = require("../../validation/register")
 
-router.post("/register", async (req, res) => {
+router.post("/", async (req, res) => {
     // Validate Register Information
     const { error } = validateRegister(req.body)
     if (error) return res.status(400).send(error.details[0].message)

@@ -39,13 +39,18 @@ router.get("/eventId/:eventId", auth, async (req, res) => {
 router.post("/", auth, async (req, res) => {
     console.log("create event")
     console.log(req.body)
+    console.log(req.body.subdomain)
 
     //Check if subdomain already exists
-    const subdomainExists = Event.findOne({ subdomain: req.body.subdomain })
-    if (subdomainExists) res.status(400).send("Subdomain already exists")
+    try {
+        const subdomainExists = await Event.findOne({ subdomain: req.body.subdomain })
+        if (subdomainExists) res.status(400).send("Subdomain already exists")
+    } catch (err) {
+        console.log(err)
+    }
 
     const event = new Event({
-        name: req.body.name,
+        title: req.body.title,
         subdomain: req.body.subdomain,
         description: req.body.description,
         time: req.body.time,

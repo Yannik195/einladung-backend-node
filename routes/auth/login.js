@@ -1,9 +1,10 @@
 const router = require("express").Router()
+const jwt = require("jsonwebtoken")
 const { validateLogin } = require("../../validation/login")
 const Organizer = require("../../model/Organizer")
 const bcrypt = require("bcryptjs")
 
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
     console.log("login")
     // Validate Register Information
     const { error } = validateLogin(req.body)
