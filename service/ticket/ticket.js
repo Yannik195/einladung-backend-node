@@ -11,7 +11,7 @@ const sendTicket = async function (event, attendee, attendencie, organizer) {
             "TemplateModel": {
                 "product_name": "einladung.app",
                 "attendee_name": `${attendee.firstname} ${attendee.lastname}`,
-                "event_name": event.name,
+                "event_title": event.title,
                 "event_price": event.price,
                 "organizer_name": `${organizer.firstname} ${organizer.lastname}`,
                 "organizer_email": organizer.email,

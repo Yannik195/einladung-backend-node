@@ -40,7 +40,7 @@ router.post("/", auth, async (req, res) => {
     console.log("create event")
     console.log(req.body)
     const event = new Event({
-        name: req.body.name,
+        title: req.body.title,
         subdomain: req.body.subdomain,
         description: req.body.description,
         time: req.body.time,
