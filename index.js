@@ -38,7 +38,7 @@ const stripeWebhook = require("./routes/stripe/webhook/webhook")
 const eventRoutes = require("./routes/events")
 const organizerRoutes = require("./routes/organizers")
 const mailchimpRoutes = require("./routes/mailchimp")
-const attendencies = require("./routes/attendencies")
+const tickets = require("./routes/tickets")
 const attendee = require("./routes/attendee")
 
 //Route Middlewares
@@ -50,7 +50,7 @@ app.use("/api/stripe/webhook", stripeWebhook)
 app.use("/api/events", eventRoutes)
 app.use("/api/organizers", organizerRoutes)
 app.use("/api/mailchimp", mailchimpRoutes)
-app.use("/api/attendencies", attendencies)
+app.use("/api/tickets", tickets)
 app.use("/api/attendee", attendee)
 
 app.listen(3000, () => console.log("Server running"))

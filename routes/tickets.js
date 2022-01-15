@@ -1,12 +1,12 @@
-const Attendencie = require("../model/Attendencie")
+const Ticket = require("../model/Ticket")
 const router = require("express").Router()
 const auth = require("./verifyToken")
 
-//Get all attendencies from specified event
+//Get all tickets from specified event
 router.get("/:eventId", async (req, res) => {
     try {
-        const attendencies = await Attendencie.find({ eventId: req.params.eventId })
-        res.send(attendencies)
+        const tickets = await Ticket.find({ eventId: req.params.eventId })
+        res.send(tickets)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -17,19 +17,18 @@ router.put("/checkin/:attendencieId", auth, async (req, res) => {
     console.log("Checkin: " + req.params.attendencieId)
     console.log(req.body)
     try {
-        const attendencie = await Attendencie.findOne({ _id: req.params.attendencieId })
-        attendencie.checkedIn = req.body.checkedIn
+        const ticket = await Ticket.findOne({ _id: req.params.attendencieId })
+        ticket.checkedIn = req.body.checkedIn
         if (req.body.checkIn) {
-            attendencie.checkedInTime = Date.now()
+            ticket.checkedInTime = Date.now()
         } else {
-            attendencie.checkedInTime = null
+            ticket.checkedInTime = null
         }
-        await attendencie.save()
+        await ticket.save()
         res.send(attendencie)
     } catch (err) {
         res.status(400).send(err)
     }
 })
-
 
 module.exports = router

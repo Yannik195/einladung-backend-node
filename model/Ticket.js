@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const attendencieSchema = new mongoose.Schema({
+const ticketSchema = new mongoose.Schema({
     eventId: {
         type: String,
         required: true,
@@ -29,4 +29,4 @@ const attendencieSchema = new mongoose.Schema({
 
 
 
-module.exports = mongoose.model("Attendencie", attendencieSchema)
+module.exports = mongoose.model("Ticket", ticketSchema)
