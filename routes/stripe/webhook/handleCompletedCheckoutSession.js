@@ -20,7 +20,7 @@ exports.handleCompletedCheckoutSession = async (session) => {
 
         const ticket = new Ticket({
             eventId: session.metadata.eventId,
-            attendeeId: savedAttendee.id,
+            attendee: savedAttendee._id,
         })
         try {
             const savedTicket = await ticket.save()

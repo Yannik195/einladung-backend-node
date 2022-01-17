@@ -7,11 +7,9 @@ const ticketSchema = new mongoose.Schema({
         min: 6,
         max: 255,
     },
-    attendeeId: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
+    attendee: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Attendee'
     },
     checkedIn: {
         type: Boolean,
