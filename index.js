@@ -7,12 +7,7 @@ require('dotenv').config()
 const mongoose = require("mongoose")
 
 //CORS
-app.use(cors({
-    origin: [
-        'http://localhost:8080',
-        'https://localhost:8080'
-    ],
-}));
+app.use(cors());
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECT,
