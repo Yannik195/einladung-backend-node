@@ -5,8 +5,9 @@ const auth = require("./verifyToken")
 //Get all tickets from specified event
 router.get("/event/:eventId", async (req, res) => {
     try {
-        const tickets = await Ticket.find({ eventId: req.params.eventId }).populate("attendee")
-        console.log(tickets)
+        const tickets = await Ticket.find({ eventId: req.params.eventId })
+            .populate("attendee")
+            .populate("event")
         res.send(tickets)
     } catch (err) {
         res.status(400).send(err)
@@ -14,11 +15,9 @@ router.get("/event/:eventId", async (req, res) => {
 })
 
 //check in / check out
-router.put("/checkin/:attendencieId", auth, async (req, res) => {
-    console.log("Checkin: " + req.params.attendencieId)
-    console.log(req.body)
+router.put("/checkin/:ticketId", auth, async (req, res) => {
     try {
-        const ticket = await Ticket.findOne({ _id: req.params.attendencieId })
+        const ticket = await Ticket.findOne({ _id: req.params.ticketId })
         ticket.checkedIn = req.body.checkedIn
         if (req.body.checkIn) {
             ticket.checkedInTime = Date.now()
@@ -26,7 +25,6 @@ router.put("/checkin/:attendencieId", auth, async (req, res) => {
             ticket.checkedInTime = null
         }
         await ticket.save()
-        res.send(attendencie)
     } catch (err) {
         res.status(400).send(err)
     }

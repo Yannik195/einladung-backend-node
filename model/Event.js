@@ -61,17 +61,14 @@ const eventSchema = new mongoose.Schema({
             max: 255,
         }
     },
-    organizerId: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
+    organizer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organizer'
     },
-    attendencieIds: {
-        type: String,
-        min: 6,
-        max: 255,
-    },
+    attendencies: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Attendee'
+    }],
 })
 
 module.exports = mongoose.model("Event", eventSchema)

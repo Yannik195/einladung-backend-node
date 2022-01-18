@@ -7,6 +7,8 @@ const auth = require("./verifyToken")
 router.get("/", auth, async (req, res) => {
     try {
         const events = await Event.find({ organizerId: req.user.userId })
+            .populate("attendencies")
+            .populate("organizer")
         res.send(events)
     } catch (err) {
         res.status(400).send(err)
