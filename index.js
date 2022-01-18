@@ -7,12 +7,7 @@ require('dotenv').config()
 const mongoose = require("mongoose")
 
 //CORS
-app.use(cors({
-    origin: [
-        'http://localhost:8080',
-        'https://localhost:8080'
-    ],
-}));
+app.use(cors());
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECT,
@@ -31,26 +26,24 @@ app.use((req, res, next) => {
 
 //Import routes
 const authRoutes = require("./routes/auth")
-const postRoutes = require("./routes/posts")
 const stripeRoutes = require("./routes/stripe/stripe")
 const stripeDashboard = require("./routes/stripe/dashboard")
 const stripeWebhook = require("./routes/stripe/webhook/webhook")
 const eventRoutes = require("./routes/events")
 const organizerRoutes = require("./routes/organizers")
 const mailchimpRoutes = require("./routes/mailchimp")
-const attendencies = require("./routes/attendencies")
+const tickets = require("./routes/tickets")
 const attendee = require("./routes/attendee")
 
 //Route Middlewares
 app.use("/api/auth", authRoutes)
-app.use("/api/posts", postRoutes)
 app.use("/api/stripe", stripeRoutes.router)
 app.use("/api/stripe/dashboard", stripeDashboard)
 app.use("/api/stripe/webhook", stripeWebhook)
 app.use("/api/events", eventRoutes)
 app.use("/api/organizers", organizerRoutes)
 app.use("/api/mailchimp", mailchimpRoutes)
-app.use("/api/attendencies", attendencies)
+app.use("/api/tickets", tickets)
 app.use("/api/attendee", attendee)
 
 app.listen(3000, () => console.log("Server running"))

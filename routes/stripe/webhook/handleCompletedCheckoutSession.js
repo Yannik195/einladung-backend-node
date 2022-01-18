@@ -1,5 +1,5 @@
 const Attendee = require("../../../model/Attendee")
-const Attendencie = require("../../../model/Attendencie")
+const Ticket = require("../../../model/Ticket")
 const Event = require("../../../model/Event")
 const Organizer = require("../../../model/Organizer")
 const { sendTicket } = require("../../../service/ticket/ticket")
@@ -18,15 +18,15 @@ exports.handleCompletedCheckoutSession = async (session) => {
         const savedAttendee = await attendee.save()
         console.log(savedAttendee)
 
-        const attendencie = new Attendencie({
+        const ticket = new Ticket({
             eventId: session.metadata.eventId,
-            attendeeId: savedAttendee.id,
+            attendee: savedAttendee._id,
         })
         try {
-            const savedAttendencie = await attendencie.save()
-            console.log(savedAttendencie)
+            const savedTicket = await ticket.save()
+            console.log(savedTicket)
 
-            sendTicket(event, savedAttendee, savedAttendencie, organizer)
+            sendTicket(event, savedAttendee, savedTicket, organizer)
         } catch (err) {
             console.log(err)
         }
