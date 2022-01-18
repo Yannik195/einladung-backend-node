@@ -1,11 +1,9 @@
 const mongoose = require("mongoose")
 
 const ticketSchema = new mongoose.Schema({
-    eventId: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
+    event: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
     },
     attendee: {
         type: mongoose.Schema.Types.ObjectId,

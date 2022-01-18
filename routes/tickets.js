@@ -5,8 +5,9 @@ const auth = require("./verifyToken")
 //Get all tickets from specified event
 router.get("/event/:eventId", async (req, res) => {
     try {
-        const tickets = await Ticket.find({ eventId: req.params.eventId }).populate("attendee")
-        console.log(tickets)
+        const tickets = await Ticket.find({ eventId: req.params.eventId })
+            .populate("attendee")
+            .populate("event")
         res.send(tickets)
     } catch (err) {
         res.status(400).send(err)
