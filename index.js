@@ -26,7 +26,6 @@ app.use((req, res, next) => {
 
 //Import routes
 const authRoutes = require("./routes/auth")
-const postRoutes = require("./routes/posts")
 const stripeRoutes = require("./routes/stripe/stripe")
 const stripeDashboard = require("./routes/stripe/dashboard")
 const stripeWebhook = require("./routes/stripe/webhook/webhook")
@@ -38,7 +37,6 @@ const attendee = require("./routes/attendee")
 
 //Route Middlewares
 app.use("/api/auth", authRoutes)
-app.use("/api/posts", postRoutes)
 app.use("/api/stripe", stripeRoutes.router)
 app.use("/api/stripe/dashboard", stripeDashboard)
 app.use("/api/stripe/webhook", stripeWebhook)
