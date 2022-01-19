@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     res.setHeader('Access-Control-Allow-Origin', 'https://einladung.app');
 
-    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: "einladung.app" }).send()
+    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: "einladung.app", httpOnly: false }).send()
 })
 
 router.post("/register", async (req, res) => {
