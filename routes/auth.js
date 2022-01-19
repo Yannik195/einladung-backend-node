@@ -22,8 +22,7 @@ router.post("/login", async (req, res) => {
         userId: organizer._id,
         details_submitted: organizer.details_submitted,
     }, process.env.TOKEN_SECRET)
-    res.header("auth-token", token).send(token)
-
+    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000 }).send()
 })
 
 router.post("/register", async (req, res) => {
