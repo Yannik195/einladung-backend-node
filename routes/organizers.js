@@ -50,10 +50,4 @@ router.post("/", async (req, res) => {
 
 })
 
-//Update Organizer
-router.put("/:organizerId", async (req, res) => {
-
-})
-
-
 module.exports = router

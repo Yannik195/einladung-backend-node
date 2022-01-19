@@ -60,4 +60,5 @@ app.use("/api/mailchimp", mailchimpRoutes)
 app.use("/api/tickets", tickets)
 app.use("/api/attendee", attendee)
 
-app.listen(3000, () => console.log("Server running"))
+const PORT = process.env.PORT || 3000
+app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))
