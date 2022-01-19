@@ -52,8 +52,9 @@ router.post("/register", async (req, res) => {
         //Send jwt 
         const token = jwt.sign({
             userId: savedOrganizer._id,
+            details_submitted: organizer.details_submitted,
         }, process.env.TOKEN_SECRET)
-        res.header("auth-token", token).send(token)
+        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000 }).send()
 
     } catch (err) {
         res.status(400).send(err)
