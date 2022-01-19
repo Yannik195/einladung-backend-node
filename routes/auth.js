@@ -26,7 +26,7 @@ router.post("/login", async (req, res) => {
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
     res.setHeader('Access-Control-Allow-Origin', 'https://einladung.app');
 
-    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, secure: true, domain: "einladung.app" }).send()
+    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000 }).send()
 })
 
 router.post("/register", async (req, res) => {
@@ -58,7 +58,7 @@ router.post("/register", async (req, res) => {
             userId: savedOrganizer._id,
             details_submitted: organizer.details_submitted,
         }, process.env.TOKEN_SECRET)
-        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, secure: true, domain: "einladung.app" }).send()
+        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000 }).send()
     } catch (err) {
         res.status(400).send(err)
     }
