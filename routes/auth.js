@@ -24,7 +24,7 @@ router.post("/login", async (req, res) => {
     }, process.env.TOKEN_SECRET)
     res.setHeader('Access-Control-Allow-Credentials', true);
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-    res.setHeader('Access-Control-Allow-Origin', 'http://invitely.app');
+    res.setHeader('Access-Control-Allow-Origin', 'http://einladung.app');
 
     res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, httpOnly: true, domain: "einladung.app" }).send()
 })
