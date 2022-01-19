@@ -16,7 +16,6 @@ router.get("/eventId/:eventId", async (req, res) => {
 
 //check in / check out
 router.put("/checkin/:ticketId", auth, async (req, res) => {
-    console.log("Checkin " + req.params.ticketId)
     try {
         const ticket = await Ticket.findOne({ _id: req.params.ticketId })
         ticket.checkedIn = req.body.checkedIn

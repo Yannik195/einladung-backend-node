@@ -1,13 +1,17 @@
 const express = require("express")
 const bodyParser = require("body-parser");
 const cors = require('cors')
-
 const app = express()
 require('dotenv').config()
 const mongoose = require("mongoose")
 
+
 //CORS
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    credentials: true,
+    exposedHeaders: ['set-cookie']
+}));
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECT,
