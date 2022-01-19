@@ -8,7 +8,17 @@ const mongoose = require("mongoose")
 
 //CORS
 app.use(cors({
-    origin: '*',
+    origin: [
+        'http://localhost:8080',
+        'https://localhost:8080',
+        'http://einladung.app',
+        'http://www.einladung.app',
+        'http://*.einladung.app',
+        'https://einladung.app',
+        'https://www.einladung.app',
+        'https://*.einladung.app',
+        /\.einladung\.app$/,
+    ],
     credentials: true,
     exposedHeaders: ['set-cookie']
 }));
