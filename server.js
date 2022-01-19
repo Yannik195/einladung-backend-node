@@ -4,6 +4,8 @@ const cors = require('cors')
 const app = express()
 require('dotenv').config()
 const mongoose = require("mongoose")
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 
 //CORS
