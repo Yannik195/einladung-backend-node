@@ -5,7 +5,6 @@ const Organizer = require("../../../model/Organizer")
 const { sendTicket } = require("../../../service/ticket/ticket")
 
 exports.handleCompletedCheckoutSession = async (session) => {
-    const event = await Event.findOne({ _id: session.metadata.eventId })
     const organizer = await Organizer.findOne({ _id: session.metadata.organizerId })
     const attendee = new Attendee({
         email: session.customer_details.email,
@@ -16,15 +15,15 @@ exports.handleCompletedCheckoutSession = async (session) => {
 
     try {
         const savedAttendee = await attendee.save()
-        console.log(savedAttendee)
 
         const ticket = new Ticket({
-            eventId: session.metadata.eventId,
+            event: session.metadata.eventId,
             attendee: savedAttendee._id,
         })
+        const event = await Event.findOneAndUpdate({ _id: session.metadata.eventId }, { $push: { attendees: [savedAttendee._id] } })
+
         try {
             const savedTicket = await ticket.save()
-            console.log(savedTicket)
 
             sendTicket(event, savedAttendee, savedTicket, organizer)
         } catch (err) {

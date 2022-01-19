@@ -6,8 +6,8 @@ const auth = require("./verifyToken")
 //Get all events of specific organizer (specified in jwt)
 router.get("/", auth, async (req, res) => {
     try {
-        const events = await Event.find({ organizerId: req.user.userId })
-            .populate("attendencies")
+        const events = await Event.find({ organizer: req.user.userId })
+            .populate("attendees")
             .populate("organizer")
         res.send(events)
     } catch (err) {
@@ -20,6 +20,8 @@ router.get("/subdomain/:subdomain", async (req, res) => {
     console.log("Get event by subdomain")
     try {
         const event = await Event.findOne({ subdomain: req.params.subdomain })
+            .populate("attendees")
+            .populate("organizer")
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
@@ -28,9 +30,9 @@ router.get("/subdomain/:subdomain", async (req, res) => {
 
 //get one event by id
 router.get("/eventId/:eventId", auth, async (req, res) => {
-    console.log("Get eventby id")
     try {
         const event = await Event.findOne({ _id: req.params.eventId })
+            .populate("attendees")
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
@@ -54,7 +56,7 @@ router.post("/", auth, async (req, res) => {
             zip: req.body.address.zip,
         },
         price: req.body.price,
-        organizerId: req.user.userId,
+        organizer: req.user.userId,
     })
 
     try {

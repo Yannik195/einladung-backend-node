@@ -65,7 +65,7 @@ const eventSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Organizer'
     },
-    attendencies: [{
+    attendees: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Attendee'
     }],
