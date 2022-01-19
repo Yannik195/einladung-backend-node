@@ -19,6 +19,15 @@ app.use(cors({
     credentials: true,
     exposedHeaders: ['set-cookie']
 }));
+app.use(cookieParser());
+app.use(session({
+    secret: 'yoursecret',
+    cookie: {
+        path: '/',
+        domain: 'einladung.app',
+        maxAge: 1000 * 60 * 24 // 24 hours
+    }
+}));
 
 app.use(function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', true);
