@@ -17,6 +17,8 @@ app.use(cors({
         'https://einladung.app',
         'https://www.einladung.app',
         'https://*.einladung.app',
+        'https://invitely.app',
+        'https://www.invitely.app',
         /\.einladung\.app$/,
     ],
     credentials: true,

@@ -22,7 +22,11 @@ router.post("/login", async (req, res) => {
         userId: organizer._id,
         details_submitted: organizer.details_submitted,
     }, process.env.TOKEN_SECRET)
-    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, httpOnly: true }).send()
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+    res.setHeader('Access-Control-Allow-Origin', 'http://invitely.app');
+
+    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, httpOnly: true, domain: "einladung.app" }).send()
 })
 
 router.post("/register", async (req, res) => {
@@ -54,7 +58,7 @@ router.post("/register", async (req, res) => {
             userId: savedOrganizer._id,
             details_submitted: organizer.details_submitted,
         }, process.env.TOKEN_SECRET)
-        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, httpOnly: true }).send()
+        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, httpOnly: true, domain: "einladung.app" }).send()
     } catch (err) {
         res.status(400).send(err)
     }
