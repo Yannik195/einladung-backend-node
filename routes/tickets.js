@@ -1,5 +1,4 @@
 const Ticket = require("../model/Ticket")
-const Organizer = require("../model/Organizer")
 const router = require("express").Router()
 const auth = require("./verifyToken")
 

@@ -5,7 +5,6 @@ const auth = require("./verifyToken")
 
 //Get all events of specific organizer (specified in jwt)
 router.get("/", auth, async (req, res) => {
-    console.log(req.user)
     try {
         const events = await Event.find({ organizer: req.user.userId })
             .populate("attendees")
