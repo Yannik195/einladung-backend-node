@@ -22,7 +22,7 @@ router.post("/login", async (req, res) => {
         userId: organizer._id,
         details_submitted: organizer.details_submitted,
     }, process.env.TOKEN_SECRET)
-    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: 'einladung.app', path: "/", secure: true }).send()
+    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: 'einladung.app', secure: true }).send()
 })
 
 router.post("/register", async (req, res) => {
@@ -54,7 +54,7 @@ router.post("/register", async (req, res) => {
             userId: savedOrganizer._id,
             details_submitted: organizer.details_submitted,
         }, process.env.TOKEN_SECRET)
-        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: 'einladung.app', path: "/", secure: true }).send()
+        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: 'einladung.app', secure: true }).send()
     } catch (err) {
         res.status(400).send(err)
     }
