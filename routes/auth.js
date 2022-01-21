@@ -4,8 +4,10 @@ const Organizer = require("../model/Organizer")
 const bcrypt = require("bcryptjs")
 const { validateRegister, validateLogin } = require("../validation")
 
+
 router.post("/login", async (req, res) => {
     console.log("login")
+
     // Validate Register Information
     const { error } = validateLogin(req.body)
     if (error) return res.status(400).send(error.details[0].message)
@@ -18,15 +20,10 @@ router.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, organizer.password)
     if (!validPassword) return res.status(400).send("Invalid Password")
 
-    const token = jwt.sign({
-        userId: organizer._id,
-        details_submitted: organizer.details_submitted,
-    }, process.env.TOKEN_SECRET)
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-    res.setHeader('Access-Control-Allow-Origin', 'https://einladung.app');
-
-    res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000, domain: "einladung.app", httpOnly: false }).send()
+    console.log("login")
+    console.log(req.session)
+    req.session.organizerId = organizer._id
+    res.status(200).send()
 })
 
 router.post("/register", async (req, res) => {
@@ -64,9 +61,11 @@ router.post("/register", async (req, res) => {
     }
 })
 
-router.get("/cookie", (req, res) => {
-    res.cookie("cookie name", "cookie")
-    res.send()
+router.get("/logout", (req, res) => {
+    req.session.destroy(err => {
+        res.clearCookie("connect.sid", { path: "/" });
+        res.status(200).send()
+    });
 })
 
 module.exports = router
