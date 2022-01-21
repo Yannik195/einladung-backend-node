@@ -1,7 +1,6 @@
 const Attendee = require("../model/Attendee")
 const router = require("express").Router()
 
-
 router.get("/:attendeeId", async (req, res) => {
     console.log("Get attendee")
     try {
@@ -11,6 +10,5 @@ router.get("/:attendeeId", async (req, res) => {
         res.status(400).send(err)
     }
 })
-
 
 module.exports = router

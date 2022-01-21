@@ -2,7 +2,6 @@ const Event = require("../model/Event")
 const router = require("express").Router()
 const auth = require("./verifyToken")
 
-
 //Get all events of specific organizer (specified in jwt)
 router.get("/", auth, async (req, res) => {
     console.log("Get events")
@@ -57,7 +56,7 @@ router.post("/", auth, async (req, res) => {
             zip: req.body.address.zip,
         },
         price: req.body.price,
-        organizer: req.user.userId,
+        organizer: req.session.organizerId,
     })
 
     try {
@@ -80,8 +79,5 @@ router.get("/subdomainIsUnique", auth, async (req, res) => {
         res.send("false")
     }
 })
-
-
-
 
 module.exports = router

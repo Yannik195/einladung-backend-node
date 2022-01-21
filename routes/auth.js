@@ -4,7 +4,6 @@ const Organizer = require("../model/Organizer")
 const bcrypt = require("bcryptjs")
 const { validateRegister, validateLogin } = require("../validation")
 
-
 router.post("/login", async (req, res) => {
     console.log("login")
 
@@ -20,9 +19,9 @@ router.post("/login", async (req, res) => {
     const validPassword = await bcrypt.compare(req.body.password, organizer.password)
     if (!validPassword) return res.status(400).send("Invalid Password")
 
-    console.log("login")
     console.log(req.session)
     req.session.organizerId = organizer._id
+    req.session.connectedId = organizer.connectedId
     res.status(200).send()
 })
 
