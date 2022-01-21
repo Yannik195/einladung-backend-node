@@ -16,7 +16,9 @@ app.use(session({
         mongoUrl: process.env.DB_CONNECT,
     }),
     cookie: {
-        maxAge: 1000 * 60 * 24 // 24 hours
+        maxAge: 1000 * 60 * 24,
+        sameSite: "strict",
+        secure: true
     }
 }));
 
@@ -34,12 +36,6 @@ app.use(cors({
     exposedHeaders: ['set-cookie']
 }));
 app.use(cookieParser());
-app.use(session({
-    secret: 'yoursecret',
-    cookie: {
-        maxAge: 1000 * 60 * 24 // 24 hours
-    }
-}));
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin: http://localhost:8080");
