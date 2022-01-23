@@ -28,8 +28,8 @@ router.get("/subdomain/:subdomain", async (req, res) => {
     }
 })
 
-//get one event by id
-router.get("/eventId/:eventId", auth, async (req, res) => {
+//get one event by id with attendees
+router.get("/eventId/:eventId/attendees", auth, async (req, res) => {
     try {
         const event = await Event.findOne({ _id: req.params.eventId })
             .populate("attendees")
