@@ -61,10 +61,6 @@ const eventSchema = new mongoose.Schema({
             max: 255,
         }
     },
-    organizer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Organizer'
-    },
     attendees: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Attendee'

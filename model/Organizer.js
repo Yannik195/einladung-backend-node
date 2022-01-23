@@ -60,6 +60,10 @@ const organizerSchema = new mongoose.Schema({
             max: 255,
         }
     },
+    events: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
+    }],
 })
 
 
