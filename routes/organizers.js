@@ -6,11 +6,11 @@ const auth = require("./verifyToken")
 //Get one organizer, by jwt id
 router.get("/", auth, async (req, res) => {
     try {
-        const organizer = await Organizer.findOne({ _id: req.user.userId })
+        const organizer = await Organizer.findOne({ _id: req.session.organizerId })
         res.send({
             _id: organizer._id,
             email: organizer.email,
-            connectedAccountId: organizer.connectedAccountId,
+            connectedId: organizer.connectedId,
             details_submitted: organizer.details_submitted,
         })
     } catch (err) {
@@ -18,10 +18,22 @@ router.get("/", auth, async (req, res) => {
     }
 })
 
-router.get("/:organizerId", auth, async (req, res) => {
+
+//Get one organizer by id
+// unauth
+//used for event page
+router.get("/:organizerId", async (req, res) => {
     try {
         const organizer = await Event.findOne({ organizerId: req.params.organizerId })
-        res.send(organizer)
+        //Organizer DTO
+        organizerDTO = {
+            firstname: organizer.firstname,
+            lastname: organizer.lastname,
+            email: organizer.email,
+            company: organizer.company,
+            address: organizer.address
+        }
+        res.send(organizerDTO)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -32,7 +44,7 @@ router.post("/", async (req, res) => {
     const organizer = new Organizer({
         name: req.body.name,
         email: req.body.email,
-        connectedAccountId: req.body.connectedAccountId,
+        connectedId: req.body.connectedId,
         address: {
             street: req.body.address.street,
             number: req.body.address.number,
@@ -47,7 +59,6 @@ router.post("/", async (req, res) => {
     } catch (err) {
         res.status(400).send(err)
     }
-
 })
 
 module.exports = router

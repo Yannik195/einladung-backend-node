@@ -50,7 +50,7 @@ const getOnboardingLink = async (accountId) => {
 router.get("/onboarding", auth, async (req, res) => {
     //Create stripe account
     console.log(req.user)
-    const organizerId = req.user.userId
+    const organizerId = req.session.organizerId
 
     const account = await stripe.accounts.create({
         type: 'express',
@@ -106,7 +106,7 @@ router.post("/buy-ticket", async (req, res) => {
             payment_intent_data: {
                 application_fee_amount: 123,
                 transfer_data: {
-                    destination: organizer.connectedAccountId,
+                    destination: organizer.connectedId,
                 },
             },
             metadata: {

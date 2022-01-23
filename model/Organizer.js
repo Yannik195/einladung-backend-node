@@ -19,7 +19,7 @@ const organizerSchema = new mongoose.Schema({
         type: String,
         max: 255,
     },
-    connectedAccountId: {
+    connectedId: {
         type: String,
         min: 6,
         max: 255,

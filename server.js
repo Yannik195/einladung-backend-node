@@ -6,7 +6,19 @@ require('dotenv').config()
 const mongoose = require("mongoose")
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+const MongoStore = require("connect-mongo")
 
+app.use(session({
+    secret: 'yoursecret',
+    resave: false,
+    saveUninitialized: true,
+    store: MongoStore.create({
+        mongoUrl: process.env.DB_CONNECT,
+    }),
+    cookie: {
+        maxAge: 1000 * 60 * 24
+    }
+}));
 
 //CORS
 app.use(cors({
@@ -22,20 +34,12 @@ app.use(cors({
     exposedHeaders: ['set-cookie']
 }));
 app.use(cookieParser());
-app.use(session({
-    secret: 'yoursecret',
-    cookie: {
-        path: '/',
-        domain: 'einladung.app',
-        maxAge: 1000 * 60 * 24 // 24 hours
-    }
-}));
 
 app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Credentials', true);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
+    res.header("Access-Control-Allow-Origin: http://localhost:8080");
+    res.header("Access-Control-Allow-Credentials: true");
+    res.header("Access-Control-Allow-Methods: GET, POST");
+    res.header("Access-Control-Allow-Headers: Content-Type, *");
     next();
 });
 
