@@ -7,8 +7,12 @@ router.get("/", auth, async (req, res) => {
     console.log("Get events")
     try {
         const events = await Event.find({ organizer: req.session.organizerId })
-            .populate("attendees")
-            .populate("tickets")
+            .populate({
+                path: "attendees",
+                populate: {
+                    path: "ticket"
+                }
+            })
         res.send(events)
     } catch (err) {
         res.status(400).send(err)
@@ -44,13 +48,28 @@ router.get("/subdomain/:subdomain", async (req, res) => {
 router.get("/eventId/:eventId/attendees", auth, async (req, res) => {
     try {
         const event = await Event.findOne({ _id: req.params.eventId })
-            .populate("attendees")
-            .populate("tickets")
+            .populate({
+                path: "attendees",
+                populate: {
+                    path: "ticket"
+                }
+            })
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
     }
 })
+
+//used for local testing, where there is no subdomain
+router.get("/eventId/:eventId", auth, async (req, res) => {
+    try {
+        const event = await Event.findOne({ _id: req.params.eventId })
+        res.send(event)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
 
 //Create new event
 router.post("/", auth, async (req, res) => {

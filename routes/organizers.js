@@ -63,10 +63,10 @@ router.post("/", async (req, res) => {
 router.get("/has-connected", auth, async (req, res) => {
     try {
         const organizer = await Organizer.findOne({ _id: req.session.organizerId })
-        if (organizer.connectedId == true) {
-            res.status(204).send()
-        } else {
+        if (organizer.connectedId == false) {
             res.status(403).send()
+        } else {
+            res.status(204).send()
         }
     } catch (err) {
         res.status(400).send(err)
