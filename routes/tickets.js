@@ -7,6 +7,8 @@ router.put("/checkin/:ticketId", auth, async (req, res) => {
     try {
         const ticket = await Ticket.findOne({ _id: req.params.ticketId })
         ticket.checkedIn = req.body.checkedIn
+
+        //funktion für aus/einchecken
         if (req.body.checkIn) {
             ticket.checkedInTime = Date.now()
         } else {

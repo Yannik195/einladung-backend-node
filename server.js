@@ -5,18 +5,18 @@ const app = express()
 require('dotenv').config()
 const mongoose = require("mongoose")
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
 const MongoStore = require("connect-mongo")
 
 app.use(session({
     secret: 'yoursecret',
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     store: MongoStore.create({
         mongoUrl: process.env.DB_CONNECT,
     }),
     cookie: {
-        maxAge: 1000 * 60 * 24
+        maxAge: 1000 * 60 * 24,
+        httpOnly: false,
     }
 }));
 
@@ -33,7 +33,6 @@ app.use(cors({
     credentials: true,
     exposedHeaders: ['set-cookie']
 }));
-app.use(cookieParser());
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin: http://localhost:8080");

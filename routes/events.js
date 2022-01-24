@@ -7,8 +7,12 @@ router.get("/", auth, async (req, res) => {
     console.log("Get events")
     try {
         const events = await Event.find({ organizer: req.session.organizerId })
-            .populate("attendees")
-            .populate("organizer")
+            .populate({
+                path: "attendees",
+                populate: {
+                    path: "ticket"
+                }
+            })
         res.send(events)
     } catch (err) {
         res.status(400).send(err)
@@ -16,28 +20,56 @@ router.get("/", auth, async (req, res) => {
 })
 
 //Get one event by subdomain
+//used for event.einladung.app
 router.get("/subdomain/:subdomain", async (req, res) => {
     console.log("Get event by subdomain")
     try {
         const event = await Event.findOne({ subdomain: req.params.subdomain })
-            .populate("attendees")
-            .populate("organizer")
+
+        const eventDTO = {
+            title: event.title,
+            subdomain: event.subdomain,
+            description: event.description,
+            time: event.time,
+            date: event.date,
+            price: event.price,
+            address: event.address,
+        }
+
+        //Create DTO as we dont want to send back the amount of attendees
+        res.send(eventDTO)
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
+//get one event by id with attendees and tickets
+//used for organizer event overview
+router.get("/eventId/:eventId/attendees", auth, async (req, res) => {
+    try {
+        const event = await Event.findOne({ _id: req.params.eventId })
+            .populate({
+                path: "attendees",
+                populate: {
+                    path: "ticket"
+                }
+            })
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
     }
 })
 
-//get one event by id with attendees
-router.get("/eventId/:eventId/attendees", auth, async (req, res) => {
+//used for local testing, where there is no subdomain
+router.get("/eventId/:eventId", auth, async (req, res) => {
     try {
         const event = await Event.findOne({ _id: req.params.eventId })
-            .populate("attendees")
         res.send(event)
     } catch (err) {
         res.status(400).send(err)
     }
 })
+
 
 //Create new event
 router.post("/", auth, async (req, res) => {
@@ -69,7 +101,6 @@ router.post("/", auth, async (req, res) => {
 
 //Check if subdomain is unique
 //used in "create event"
-
 router.get("/subdomainIsUnique", auth, async (req, res) => {
     console.log("subdomain")
     const event = await Event.findOne({ subdomain: req.body.subdomain })

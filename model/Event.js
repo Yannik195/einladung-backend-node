@@ -32,38 +32,24 @@ const eventSchema = new mongoose.Schema({
     price: {
         type: String,
         required: true,
-        min: 6,
-        max: 255,
     },
     address: {
         street: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         number: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         city: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         zip: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         }
-    },
-    organizer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Organizer'
     },
     attendees: [{
         type: mongoose.Schema.Types.ObjectId,

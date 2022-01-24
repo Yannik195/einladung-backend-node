@@ -20,11 +20,16 @@ exports.handleCompletedCheckoutSession = async (session) => {
             event: session.metadata.eventId,
             attendee: savedAttendee._id,
         })
+        savedAttendee.ticket = ticket._id
+        savedAttendee.save()
         const event = await Event.findOneAndUpdate({ _id: session.metadata.eventId }, { $push: { attendees: [savedAttendee._id] } })
 
         try {
             const savedTicket = await ticket.save()
 
+            //TODO welche objekte brauche ich etc
+            //kann ich die abfragen schlanger gestalten?
+            //mit populates?
             sendTicket(event, savedAttendee, savedTicket, organizer)
         } catch (err) {
             console.log(err)

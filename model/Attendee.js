@@ -20,7 +20,11 @@ const attendeeSchema = new mongoose.Schema({
         required: true,
         min: 6,
         max: 255,
-    }
+    },
+    ticket: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Ticket'
+    },
 })
 
 
