@@ -2,24 +2,24 @@ const express = require("express")
 const router = express.Router()
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const handleCompletedCheckoutSession = require("./handleCompletedCheckoutSession")
-const handleAccountUpdate = require("./handleAccountUpdate")
+const handleAccountUpdate = require("./handleAccountUpdate");
 
 //Webhook
-router.post('/', express.raw({ type: 'application/json' }), (request, response) => {
+router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
     console.log("webhook")
-    const sig = request.headers['stripe-signature'];
+    const sig = req.headers['stripe-signature'];
 
     let event;
 
     // Verify webhook signature and extract the event.
     // See https://stripe.com/docs/webhooks/signatures for more information.
     try {
-        event = stripe.webhooks.constructEvent(request.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
         console.log(event.type)
     } catch (err) {
         console.log(`Webhook Error: ${err}`)
 
-        return response.status(400).send(`Webhook Error: ${err}`);
+        return res.status(400).send(`Webhook Error: ${err}`);
     }
 
     if (event.type === 'checkout.session.completed') {
@@ -37,7 +37,7 @@ router.post('/', express.raw({ type: 'application/json' }), (request, response) 
         //todo if they abort do this: https://stripe.com/docs/connect/express-accounts#handle-users-not-completed-onboarding
     }
 
-    response.json({ received: true });
+    res.json({ received: true });
 });
 
 

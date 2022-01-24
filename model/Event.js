@@ -32,33 +32,23 @@ const eventSchema = new mongoose.Schema({
     price: {
         type: String,
         required: true,
-        min: 6,
-        max: 255,
     },
     address: {
         street: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         number: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         city: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         },
         zip: {
             type: String,
             required: true,
-            min: 6,
-            max: 255,
         }
     },
     attendees: [{

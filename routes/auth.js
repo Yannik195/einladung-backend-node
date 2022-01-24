@@ -40,21 +40,19 @@ router.post("/register", async (req, res) => {
 
     // Create new User
     const organizer = new Organizer({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
         password: hashedPassword
     })
 
+    req.session.organizerId = organizer._id
+    req.session.connectedId = false
+
     try {
         //Save user
-        const savedOrganizer = await organizer.save()
-
-        //Send jwt 
-        const token = jwt.sign({
-            userId: savedOrganizer._id,
-            details_submitted: organizer.details_submitted,
-        }, process.env.TOKEN_SECRET)
-        res.cookie("auth-token", token, { maxAge: 48 * 60 * 60 * 1000 }).send()
+        await organizer.save()
+        res.status(204).send()
     } catch (err) {
         res.status(400).send(err)
     }
@@ -62,7 +60,7 @@ router.post("/register", async (req, res) => {
 
 router.get("/logout", (req, res) => {
     req.session.destroy(err => {
-        res.clearCookie("connect.sid", { path: "/" });
+        res.clearCookie("connect.sid");
         res.status(200).send()
     });
 })

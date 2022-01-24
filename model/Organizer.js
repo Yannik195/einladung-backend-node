@@ -4,10 +4,12 @@ const organizerSchema = new mongoose.Schema({
     firstname: {
         type: String,
         max: 255,
+        required: true,
     },
     lastname: {
         type: String,
         max: 255,
+        required: true,
     },
     email: {
         type: String,
@@ -18,15 +20,13 @@ const organizerSchema = new mongoose.Schema({
     company: {
         type: String,
         max: 255,
+        required: false,
     },
     connectedId: {
         type: String,
         min: 6,
         max: 255,
-    },
-    details_submitted: {
-        type: String,
-        default: false
+        default: false,
     },
     password: {
         type: String,
@@ -34,37 +34,10 @@ const organizerSchema = new mongoose.Schema({
         min: 6,
         max: 255,
     },
-    address: {
-        street: {
-            type: String,
-            required: false,
-            min: 6,
-            max: 255,
-        },
-        number: {
-            type: String,
-            required: false,
-            min: 6,
-            max: 255,
-        },
-        city: {
-            type: String,
-            required: false,
-            min: 6,
-            max: 255,
-        },
-        zip: {
-            type: String,
-            required: false,
-            min: 6,
-            max: 255,
-        }
-    },
     events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
     }],
 })
-
 
 module.exports = mongoose.model("Organizer", organizerSchema)

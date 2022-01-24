@@ -9,9 +9,11 @@ router.get("/", auth, async (req, res) => {
         const organizer = await Organizer.findOne({ _id: req.session.organizerId })
         res.send({
             _id: organizer._id,
+            firstname: organizer.firstname,
+            lastname: organizer.lastname,
             email: organizer.email,
-            connectedId: organizer.connectedId,
-            details_submitted: organizer.details_submitted,
+            company: organizer.company,
+            address: organizer.address
         })
     } catch (err) {
         res.status(400).send(err)
@@ -22,11 +24,12 @@ router.get("/", auth, async (req, res) => {
 //Get one organizer by id
 // unauth
 //used for event page
-router.get("/:organizerId", async (req, res) => {
+router.get("/id/:organizerId", async (req, res) => {
     try {
         const organizer = await Event.findOne({ organizerId: req.params.organizerId })
         //Organizer DTO
         organizerDTO = {
+            _id: organizer._id,
             firstname: organizer.firstname,
             lastname: organizer.lastname,
             email: organizer.email,
@@ -42,20 +45,29 @@ router.get("/:organizerId", async (req, res) => {
 //Add Organizer
 router.post("/", async (req, res) => {
     const organizer = new Organizer({
-        name: req.body.name,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
         email: req.body.email,
-        connectedId: req.body.connectedId,
-        address: {
-            street: req.body.address.street,
-            number: req.body.address.number,
-            city: req.body.address.city,
-            zip: req.body.address.zip,
-        },
+        company: req.body.company,
     })
 
     try {
-        const savedOrganizer = await organizer.save()
-        res.send(savedOrganizer)
+        await organizer.save()
+        res.status(204).send()
+    } catch (err) {
+        res.status(400).send(err)
+    }
+})
+
+//Check if organizer hast connected account id
+router.get("/has-connected", auth, async (req, res) => {
+    try {
+        const organizer = await Organizer.findOne({ _id: req.session.organizerId })
+        if (organizer.connectedId == true) {
+            res.status(204).send()
+        } else {
+            res.status(403).send()
+        }
     } catch (err) {
         res.status(400).send(err)
     }
