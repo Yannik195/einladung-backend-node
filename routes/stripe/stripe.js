@@ -62,6 +62,9 @@ router.get("/onboarding", auth, async (req, res) => {
     console.log("Stripe Account created " + account.id)
 
     console.log("create onboarding link")
+    console.log("node-env")
+    console.log(process.env.NODE_ENV)
+
 
     const onboardingLink = await stripe.accountLinks.create({
         account: account.id,
@@ -90,6 +93,8 @@ router.get("/accounts/:accountId", async (req, res) => {
 //Buy Ticket
 router.post("/buy-ticket", async (req, res) => {
     console.log("buy ticket")
+    console.log("node-env")
+    console.log(process.env.NODE_ENV)
     try {
         const event = await Event.findOne({ subdomain: req.body.subdomain })
         console.log(event.title)
