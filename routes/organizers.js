@@ -61,11 +61,14 @@ router.post("/", async (req, res) => {
 
 //Check if organizer hast connected account id
 router.get("/has-connected", auth, async (req, res) => {
+    console.log("check for connected id")
     try {
         const organizer = await Organizer.findOne({ _id: req.session.organizerId })
-        if (organizer.connectedId == false) {
+        if (organizer.connectedId == "false") {
+            console.log("organizer has NO connected ID")
             res.status(403).send()
         } else {
+            console.log("organizer has connected ID")
             res.status(204).send()
         }
     } catch (err) {
