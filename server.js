@@ -24,7 +24,7 @@ app.use(session({
 app.use(cors({
     origin: [
         'http://localhost:8080',
-        'https://localhost:8080',
+        'http://localhost:8081',
         'https://einladung.app',
         'https://www.einladung.app',
         'https://*.einladung.app',

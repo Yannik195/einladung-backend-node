@@ -116,10 +116,8 @@ router.post("/buy-ticket", async (req, res) => {
                 lastname: req.body.lastname,
             },
             mode: 'payment',
-            success_url: `http://localhost:8080/event/${event.subdomain}?success=true`,
-            cancel_url: `http://localhost:8080/event/${event.subdomain}?success=false`,
-            // success_url: `https://${event.subdomain}.einladung.app?success=true`,
-            // cancel_url: `https://${event.subdomain}.einladung.app?success=false`,
+            success_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=true` : `https://${event.subdomain}.einladung.app?success=true`,
+            cancel_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=false` : `https://${event.subdomain}.einladung.app?success=false`,
         });
 
         res.send({ "sessionUrl": session.url })
