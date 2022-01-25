@@ -50,7 +50,7 @@ mongoose.connect(process.env.DB_CONNECT,
 app.use((req, res, next) => {
     console.log("orignial url:")
     console.log(req.originalUrl)
-    if (req.originalUrl === "/api/stripe/webhook") {
+    if (req.originalUrl.startsWith("/api/stripe/webhook")) {
         console.log(req.originalUrl)
         next();
     } else {

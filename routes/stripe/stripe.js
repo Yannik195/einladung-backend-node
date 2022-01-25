@@ -66,7 +66,7 @@ router.get("/onboarding", auth, async (req, res) => {
     const onboardingLink = await stripe.accountLinks.create({
         account: account.id,
         refresh_url: 'https://example.com/reauth',
-        return_url: 'http://localhost:8080/organizer/overview',
+        return_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/organizer/overview` : `https://einladung.app/organizer/overview`,
         type: 'account_onboarding',
     });
 

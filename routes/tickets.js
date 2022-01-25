@@ -15,7 +15,7 @@ router.put("/checkin/:ticketId", auth, async (req, res) => {
             ticket.checkedInTime = null
         }
         await ticket.save()
-        res.send(ticket)
+        res.status(201).send()
     } catch (err) {
         res.status(400).send(err)
     }

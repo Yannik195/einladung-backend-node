@@ -1,3 +1,4 @@
+const Organizer = require("../model/Organizer")
 const Event = require("../model/Event")
 const router = require("express").Router()
 const auth = require("./verifyToken")
@@ -6,14 +7,14 @@ const auth = require("./verifyToken")
 router.get("/", auth, async (req, res) => {
     console.log("Get events")
     try {
-        const events = await Event.find({ organizer: req.session.organizerId })
+        const organizer = await Organizer.findOne({ _id: req.session.organizerId })
             .populate({
-                path: "attendees",
+                path: "events",
                 populate: {
-                    path: "ticket"
+                    path: "attendees"
                 }
             })
-        res.send(events)
+        res.send(organizer.events)
     } catch (err) {
         res.status(400).send(err)
     }
@@ -88,12 +89,12 @@ router.post("/", auth, async (req, res) => {
             zip: req.body.address.zip,
         },
         price: req.body.price,
-        organizer: req.session.organizerId,
     })
 
     try {
         const savedEvent = await event.save()
-        res.send(savedEvent)
+        await Organizer.findOneAndUpdate({ _id: req.session.organizerId }, { $push: { events: [savedEvent._id] } })
+        res.status(201).send(savedEvent)
     } catch (err) {
         res.status(400).send(err)
     }
