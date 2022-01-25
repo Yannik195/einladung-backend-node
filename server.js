@@ -50,13 +50,22 @@ mongoose.connect(process.env.DB_CONNECT,
 app.use((req, res, next) => {
     console.log("orignial url:")
     console.log(req.originalUrl)
-    if (req.originalUrl === "/api/stripe/webhook/") {
+    if (req.originalUrl === "/api/stripe/webhook") {
         console.log(req.originalUrl)
         next();
     } else {
         bodyParser.json()(req, res, next);
     }
 });
+/* app.use(bodyParser.json({
+    // Because Stripe needs the raw body, we compute it but only when hitting the Stripe callback URL.
+    verify: function (req, res, buf) {
+        var url = req.originalUrl;
+        if (url.startsWith('/api/stripe/webhook')) {
+            req.rawBody = buf.toString()
+        }
+    }
+})); */
 
 //Import routes
 const authRoutes = require("./routes/auth")
