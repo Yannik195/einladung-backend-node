@@ -64,6 +64,7 @@ router.get("/has-connected", auth, async (req, res) => {
     console.log("check for connected id")
     try {
         const organizer = await Organizer.findOne({ _id: req.session.organizerId })
+        console.log(organizer)
         if (organizer.connectedId == "false") {
             console.log("organizer has NO connected ID")
             res.status(403).send()
