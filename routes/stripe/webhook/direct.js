@@ -2,10 +2,9 @@ const express = require("express")
 const router = express.Router()
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const handleCompletedCheckoutSession = require("./handleCompletedCheckoutSession")
-const handleAccountUpdate = require("./handleAccountUpdate");
 
 //Webhook
-router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
+router.post('/direct', express.raw({ type: 'application/json' }), (req, res) => {
     console.log("webhook")
     const sig = req.headers['stripe-signature'];
 
@@ -14,11 +13,10 @@ router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
     // Verify webhook signature and extract the event.
     // See https://stripe.com/docs/webhooks/signatures for more information.
     try {
-        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET_DIRECT);
         console.log(event.type)
     } catch (err) {
         console.log(`Webhook Error: ${err}`)
-
         return res.status(400).send(`Webhook Error: ${err}`);
     }
 
@@ -27,14 +25,6 @@ router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
 
         const session = event.data.object;
         handleCompletedCheckoutSession.handleCompletedCheckoutSession(session);
-    } else if (event.type === 'account.updated') {
-        console.log("Webhook: account updated")
-
-        const account = event.data.object;
-        handleAccountUpdate.handleAccountUpdate(account);
-    } else if (event.type === "person.created") {
-        console.log("user submitted first details")
-        //todo if they abort do this: https://stripe.com/docs/connect/express-accounts#handle-users-not-completed-onboarding
     }
 
     res.json({ received: true });

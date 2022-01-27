@@ -1,14 +1,12 @@
 const express = require("express")
 const bodyParser = require("body-parser");
 const cors = require('cors')
-const app = express()
 require('dotenv').config()
 const mongoose = require("mongoose")
 var session = require('express-session');
 const MongoStore = require("connect-mongo")
-var history = require('connect-history-api-fallback');
 
-app.use(history());
+const app = express()
 
 app.use(session({
     secret: 'yoursecret',
@@ -66,7 +64,8 @@ app.use((req, res, next) => {
 const authRoutes = require("./routes/auth")
 const stripeRoutes = require("./routes/stripe/stripe")
 const stripeDashboard = require("./routes/stripe/dashboard")
-const stripeWebhook = require("./routes/stripe/webhook/webhook")
+const stripeWebhookDirect = require("./routes/stripe/webhook/direct")
+const stripeWebhookConnect = require("./routes/stripe/webhook/connect")
 const eventRoutes = require("./routes/events")
 const organizerRoutes = require("./routes/organizers")
 const mailchimpRoutes = require("./routes/mailchimp")
@@ -77,7 +76,8 @@ const attendee = require("./routes/attendee")
 app.use("/api/auth", authRoutes)
 app.use("/api/stripe", stripeRoutes.router)
 app.use("/api/stripe/dashboard", stripeDashboard)
-app.use("/api/stripe/webhook", stripeWebhook)
+app.use("/api/stripe/webhook/direct", stripeWebhookDirect)
+app.use("/api/stripe/webhook/connect", stripeWebhookConnect)
 app.use("/api/events", eventRoutes)
 app.use("/api/organizers", organizerRoutes)
 app.use("/api/mailchimp", mailchimpRoutes)
