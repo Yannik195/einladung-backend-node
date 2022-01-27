@@ -13,7 +13,7 @@ const sendTicket = async function (event, attendee, attendencie, organizer) {
                 "attendee_name": `${attendee.firstname} ${attendee.lastname}`,
                 "event_title": event.title,
                 "event_price": event.price,
-                "organizer_name": `${organizer.firstname} ${organizer.lastname}`,
+                "organizer_name": organizer.company != "false" ? `${organizer.company}` : `${organizer.firstname} ${organizer.lastname}`,
                 "organizer_email": organizer.email,
                 "event_subdomain": event.subdomain,
                 "event_date": event.date,

@@ -21,12 +21,12 @@ router.get("/", auth, async (req, res) => {
 })
 
 
-//Get one organizer by id
+//Get one organizer by event id
 // unauth
 //used for event page
-router.get("/id/:organizerId", async (req, res) => {
+router.get("/eventId/:eventId", async (req, res) => {
     try {
-        const organizer = await Event.findOne({ organizerId: req.params.organizerId })
+        const organizer = await Organizer.findOne({ events: req.params.eventId })
         //Organizer DTO
         organizerDTO = {
             _id: organizer._id,
@@ -34,7 +34,6 @@ router.get("/id/:organizerId", async (req, res) => {
             lastname: organizer.lastname,
             email: organizer.email,
             company: organizer.company,
-            address: organizer.address
         }
         res.send(organizerDTO)
     } catch (err) {

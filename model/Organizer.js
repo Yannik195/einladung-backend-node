@@ -20,6 +20,7 @@ const organizerSchema = new mongoose.Schema({
     company: {
         type: String,
         max: 255,
+        default: false,
         required: false,
     },
     connectedId: {

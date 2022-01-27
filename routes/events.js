@@ -28,6 +28,7 @@ router.get("/subdomain/:subdomain", async (req, res) => {
         const event = await Event.findOne({ subdomain: req.params.subdomain })
 
         const eventDTO = {
+            _id: event._id,
             title: event.title,
             subdomain: event.subdomain,
             description: event.description,
