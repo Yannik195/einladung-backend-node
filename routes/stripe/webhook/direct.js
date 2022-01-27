@@ -4,7 +4,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const handleCompletedCheckoutSession = require("./handleCompletedCheckoutSession")
 
 //Webhook
-router.post('/direct', express.raw({ type: 'application/json' }), (req, res) => {
+router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
     console.log("webhook")
     const sig = req.headers['stripe-signature'];
 
