@@ -6,6 +6,9 @@ require('dotenv').config()
 const mongoose = require("mongoose")
 var session = require('express-session');
 const MongoStore = require("connect-mongo")
+var history = require('connect-history-api-fallback');
+
+app.use(history());
 
 app.use(session({
     secret: 'yoursecret',
