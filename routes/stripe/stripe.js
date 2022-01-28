@@ -104,7 +104,7 @@ router.post("/buy-ticket", async (req, res) => {
             customer_email: req.body.email,
             line_items: [{
                 name: event.title,
-                amount: event.price * 100,
+                amount: event.price,
                 currency: 'eur',
                 quantity: 1,
             }],

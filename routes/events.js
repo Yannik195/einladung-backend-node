@@ -89,7 +89,7 @@ router.post("/", auth, async (req, res) => {
             city: req.body.address.city,
             zip: req.body.address.zip,
         },
-        price: req.body.price,
+        price: convertPrice(req.body.price),
     })
 
     try {
@@ -100,6 +100,40 @@ router.post("/", auth, async (req, res) => {
         res.status(400).send(err)
     }
 })
+
+//If a price contains a , split it and return it as *100 price with no decimal place
+//handle case for 10.00
+//handle case for 10
+//handle case for 10,2
+//full conversion here?
+//substract credit card cost here?
+const convertPrice = (price) => {
+    //If price has 
+    if (price.includes(",")) {
+        const priceArray = price.split(",")
+        //If price has one decimal, add a zero at the end and concat
+        if (priceArray[1].length == 1)
+            return `${priceArray[0]}${priceArray[1]}0`
+        //if price has 2 just concat
+        else if (priceArray[1].length == 2)
+            return `${priceArray[0]}${priceArray[1]}`
+        //if price hast more, send bad request
+        else if (priceArray[1].length > 2)
+            res.status(400).send("Bad Price Format")
+
+    } else if (price.includes(".")) {
+        const priceArray = price.split(".")
+        if (priceArray[1].length == 1)
+            return `${priceArray[0]}${priceArray[1]}0`
+        else if (priceArray[1].length == 2)
+            return `${priceArray[0]}${priceArray[1]}`
+        else if (priceArray[1].length > 2)
+            res.status(400).send("Bad Price Format")
+    } else {
+        //if price has no decimal (eg 10) multiply *100 = 1000
+        return price * 100
+    }
+}
 
 //Check if subdomain is unique
 //used in "create event"
