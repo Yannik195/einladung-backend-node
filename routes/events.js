@@ -2,6 +2,8 @@ const Organizer = require("../model/Organizer")
 const Event = require("../model/Event")
 const router = require("express").Router()
 const auth = require("./verifyToken")
+const { sendTicket } = require("../service/ticket/ticket")
+
 
 //Get all events of specific organizer (specified in jwt)
 router.get("/", auth, async (req, res) => {
@@ -101,11 +103,6 @@ router.post("/", auth, async (req, res) => {
     }
 })
 
-//If a price contains a , split it and return it as *100 price with no decimal place
-//handle case for 10.00
-//handle case for 10
-//handle case for 10,2
-//full conversion here?
 //substract credit card cost here?
 const convertPrice = (price) => {
     //If price has 
@@ -145,6 +142,42 @@ router.get("/subdomainIsUnique", auth, async (req, res) => {
     } else {
         res.send("false")
     }
+})
+
+router.post("/send-demo-ticket", async (req, res) => {
+    const event = {
+        title: "Demo Event",
+        price: "1000",
+        subdomain: "demo",
+        date: "1.1.2022",
+        time: "20:00",
+        address: {
+            street: "Musterstraße",
+            number: "10",
+            city: "Stuttgart",
+            zip: "70123",
+        },
+    }
+
+    const attendee = {
+        firstname: "Max",
+        lastname: "Mustermann",
+        email: req.body.email,
+    }
+
+    const ticket = {
+        id: "123456789",
+        boughtAt: Date.now(),
+        code: "6789"
+    }
+
+    const organizer = {
+        firstname: "Unternehmen oder",
+        lastname: "Name",
+    }
+
+    await sendTicket(event, attendee, ticket, organizer)
+
 })
 
 module.exports = router

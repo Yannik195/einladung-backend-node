@@ -5,7 +5,6 @@ const Organizer = require("../../../model/Organizer")
 const { sendTicket } = require("../../../service/ticket/ticket")
 
 exports.handleCompletedCheckoutSession = async (session) => {
-
     try {
         //get organizer
         const organizer = await Organizer.findOne({ _id: session.metadata.organizerId })
