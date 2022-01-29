@@ -17,17 +17,16 @@ const eventSchema = new mongoose.Schema({
         type: String,
         required: true,
         min: 6,
-        max: 255,
+        max: 2047,
     },
     time: {
         type: String,
         required: true,
     },
     date: {
-        type: String,
+        type: Date,
         required: true,
-        min: 6,
-        max: 255,
+        min: Date.now()
     },
     price: {
         type: String,
@@ -49,6 +48,8 @@ const eventSchema = new mongoose.Schema({
         zip: {
             type: String,
             required: true,
+            min: 5,
+            max: 5,
         }
     },
     attendees: [{
