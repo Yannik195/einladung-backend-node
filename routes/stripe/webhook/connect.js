@@ -14,7 +14,6 @@ router.post('/', express.raw({ type: 'application/json' }), (req, res) => {
     // See https://stripe.com/docs/webhooks/signatures for more information.
     try {
         event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET_CONNECT);
-        console.log(event.type)
     } catch (err) {
         console.log(`Webhook Error: ${err}`)
         return res.status(400).send(`Webhook Error: ${err}`);

@@ -78,7 +78,6 @@ router.get("/eventId/:eventId", auth, async (req, res) => {
 //Create new event
 router.post("/", auth, async (req, res) => {
     console.log("create event")
-    console.log(req.body)
     const event = new Event({
         title: req.body.title,
         subdomain: req.body.subdomain,

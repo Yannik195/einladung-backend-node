@@ -49,10 +49,8 @@ mongoose.connect(process.env.DB_CONNECT,
 
 // Use JSON parser for all non-webhook routes
 app.use((req, res, next) => {
-    console.log("orignial url:")
     console.log(req.originalUrl)
     if (req.originalUrl.startsWith("/api/stripe/webhook")) {
-        console.log(req.originalUrl)
         next();
     } else {
         bodyParser.json()(req, res, next);

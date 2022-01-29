@@ -47,7 +47,6 @@ const sendTicket = async function (event, attendee, ticket, organizer) {
         }
     }).then(res => {
         console.log(`statusCode: ${res.status}`)
-        console.log(res)
     }).catch(error => {
         console.error(error)
     })

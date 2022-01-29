@@ -19,8 +19,9 @@ exports.handleCompletedCheckoutSession = async (session) => {
 
         //??? create ticket
         const ticket = new Ticket()
-        console.log(ticket.id)
-        ticket.code = ticket.id.substring(ticket.id.length - 4)
+        let code = ticket.id.substring(ticket.id.length - 4)
+        code = code.toUpperCase()
+        ticket.code = code
         const savedTicket = await ticket.save()
 
         //add ticket to attendee
@@ -30,10 +31,6 @@ exports.handleCompletedCheckoutSession = async (session) => {
         //save attendee to event
         const event = await Event.findOneAndUpdate({ _id: session.metadata.eventId }, { $push: { attendees: [savedAttendee._id] } })
 
-
-        //TODO welche objekte brauche ich etc
-        //kann ich die abfragen schlanger gestalten?
-        //mit populates?
         sendTicket(event, savedAttendee, savedTicket, organizer)
     } catch (err) {
         console.log(err)
