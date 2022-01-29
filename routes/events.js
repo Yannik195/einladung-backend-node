@@ -77,8 +77,13 @@ router.get("/eventId/:eventId", auth, async (req, res) => {
 
 //Create new event
 router.post("/", auth, async (req, res) => {
+    let event = await Event.findOne({ subdomain: req.body.subdomain })
+    if (event) {
+        res.status(403).send("Subdomain bereits vergeben")
+        return
+    }
     console.log("create event")
-    const event = new Event({
+    event = new Event({
         title: req.body.title,
         subdomain: req.body.subdomain,
         description: req.body.description,

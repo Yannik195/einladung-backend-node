@@ -16,7 +16,7 @@ const sendTicket = async function (event, attendee, ticket, organizer) {
                 "organizer_name": organizer.company != "false" ? `${organizer.company}` : `${organizer.firstname} ${organizer.lastname}`,
                 "organizer_email": organizer.email,
                 "event_subdomain": event.subdomain,
-                "event_date": event.date,
+                "event_date": formatDate(event.date),
                 "event_time": event.time,
                 "event_address": event.address,
                 "event_address_street": event.address.street,
@@ -50,6 +50,12 @@ const sendTicket = async function (event, attendee, ticket, organizer) {
     }).catch(error => {
         console.error(error)
     })
+}
+
+formatDate = function (date) {
+    const newDate = new Date(date);
+    const formattedDate = newDate.toLocaleString("de-DE", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+    return formattedDate
 }
 
 exports.sendTicket = sendTicket

@@ -9,7 +9,7 @@ const MongoStore = require("connect-mongo")
 const app = express()
 
 app.use(session({
-    secret: 'yoursecret',
+    secret: process.env.TOKEN_SECRET,
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({

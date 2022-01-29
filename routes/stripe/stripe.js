@@ -4,11 +4,6 @@ const router = require("express").Router()
 const stripe = require('stripe')(process.env.STRIPE_SECRET);
 const auth = require("../verifyToken")
 
-
-
-//create account + onboarding in one
-//get organizerid from token
-
 //Create a new account
 router.post("/accounts", async (req, res) => {
     const account = await createStripeAccount(req.body.organizerId)
@@ -26,8 +21,6 @@ exports.createStripeAccount = async (organizerId) => {
     });
     return account
 }
-
-
 
 //get the account link to finish the sign up process to stripe
 router.get("/accounts/:accountId/link", async (req, res) => {
@@ -69,20 +62,6 @@ router.get("/onboarding", auth, async (req, res) => {
     res.send(onboardingLink)
 })
 
-//List all accounts
-router.get("/accounts", async (req, res) => {
-    const accounts = await stripe.accounts.list()
-    res.send(accounts)
-})
-
-//List one specific account
-router.get("/accounts/:accountId", async (req, res) => {
-    const account = await stripe.accounts.retrieve(
-        req.params.accountId
-    );
-    res.send(account)
-})
-
 //Buy Ticket
 router.post("/buy-ticket", async (req, res) => {
     console.log("buy ticket")
@@ -94,12 +73,14 @@ router.post("/buy-ticket", async (req, res) => {
             customer_email: req.body.email,
             line_items: [{
                 name: event.title,
+                //credit card fees calc here?
+                //price - 1.4% - 0.25
                 amount: event.price,
                 currency: 'eur',
                 quantity: 1,
             }],
             payment_intent_data: {
-                application_fee_amount: 123,
+                application_fee_amount: calcApplicationFeeAmount(event.price),
                 transfer_data: {
                     destination: organizer.connectedId,
                 },
@@ -121,12 +102,8 @@ router.post("/buy-ticket", async (req, res) => {
     }
 })
 
-
-
-
-
-
-
-
+const calcApplicationFeeAmount = function (price) {
+    return price * 0.03 + 20
+}
 
 exports.router = router
