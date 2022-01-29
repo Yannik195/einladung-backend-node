@@ -20,6 +20,9 @@ exports.handleCompletedCheckoutSession = async (session) => {
 
         //??? create ticket
         const ticket = new Ticket()
+        console.log(ticket.id)
+        ticket.code = ticket.id.substring(ticket.id.length - 4)
+        const savedTicket = await ticket.save()
 
         //add ticket to attendee
         savedAttendee.ticket = ticket._id
@@ -28,7 +31,6 @@ exports.handleCompletedCheckoutSession = async (session) => {
         //save attendee to event
         const event = await Event.findOneAndUpdate({ _id: session.metadata.eventId }, { $push: { attendees: [savedAttendee._id] } })
 
-        const savedTicket = await ticket.save()
 
         //TODO welche objekte brauche ich etc
         //kann ich die abfragen schlanger gestalten?

@@ -1,0 +1,74 @@
+<h1>Hi {{ attendee_name }},</h1>
+<p>Danke für den Kauf eines Tickets für <b>{{ event_title }}</b> im Wert von <b>{{ event_price }} Euro.</b></p>
+<p>In dieser Email findest du dein Ticket, in Form eines QR-Codes.
+ Diesen kannst du ganz einfach bei deiner Veranstaltung vorzeigen.</p>
+
+<div class="ticket">
+  <h1>Dein Ticket</h1>
+
+  <h2>Event</h2>
+  <p>{{ event_title }}</p>
+
+  <h2>Veranstalter</h2>
+  <p>{{ organizer_name }}</p>
+
+  <h2>Veranstaltungsseite</h2>
+  <p><a href="{{ event_subdomain }}.einladung.app">{{ event_subdomain }}.einladung.app</a></p>
+  
+  <h2>Datum</h2>
+  <p>{{ event_date }}</p>
+
+  <h2>Uhrzeit</h2>
+  <p>{{ event_time }}</p>
+
+  <h2>Adresse</h2>
+  <p>{{ event_address_street }} {{ event_address_number }}</p>
+  <h2 style="margin-top: 0">{{ event_address_city }} {{ event_address_zip }}</h2>
+
+  <h2>Dein Ticket als 4-Digit-Code</h2>
+  <p>{{ ticket_code }}</p>
+  
+  <h2>Dein Ticket als QR-Code</h2>
+  <img src="cid:qrcode"/>
+</div>
+
+<table class="purchase" width="100%" cellpadding="0" cellspacing="0">
+  <tr>
+    <td>
+      <h3>{{ticket_id}}</h3></td>
+    <td>
+      <h3 class="align-right">{{ticket_bought_at}}</h3></td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <table class="purchase_content" width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <th class="purchase_heading">
+            <p>Description</p>
+          </th>
+          <th class="purchase_heading">
+            <p class="align-right">Amount</p>
+          </th>
+        </tr>
+        
+        <tr>
+          <td width="80%" class="purchase_item">{{ event_title }}</td>
+          <td class="align-right purchase_item" width="20%">{{ event_price }} Euro</td>
+        </tr>
+        
+        <tr>
+          <td width="80%" class="purchase_footer" valign="middle">
+            <p class="purchase_total purchase_total--label">Total</p>
+          </td>
+          <td width="20%" class="purchase_footer" valign="middle">
+            <p class="purchase_total">{{ event_price }} Euro</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<p>Falls du Fragen zu deinem Ticket hast, melde dich einfach bei unserem Support Team unter support@einladung.app</p>
+<p>Solltest du Fragen zum Event haben, kannst du den Veranstalter unter {{ organizer_email }} erreichen.</p>
+<p>Viel Spaß bei deinem Event,
+  <br>dein {{ product_name }} Team</p>
