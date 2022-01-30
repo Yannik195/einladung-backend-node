@@ -40,7 +40,7 @@ router.post("/register", async (req, res) => {
     const organizer = new Organizer({
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        company: req.body.lastname,
+        company: req.body.company,
         email: req.body.email,
         password: hashedPassword
     })

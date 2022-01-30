@@ -55,7 +55,7 @@ router.get("/onboarding", auth, async (req, res) => {
     const onboardingLink = await stripe.accountLinks.create({
         account: account.id,
         refresh_url: 'https://example.com/reauth',
-        return_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/organizer/overview` : `https://einladung.app/organizer/overview`,
+        return_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/organizer/overview` : `https://${process.env.BASE_URL_DOMAIN}.app/organizer/overview`,
         type: 'account_onboarding',
     });
 
@@ -92,8 +92,8 @@ router.post("/buy-ticket", async (req, res) => {
                 lastname: req.body.lastname,
             },
             mode: 'payment',
-            success_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=true` : `https://${event.subdomain}.einladung.app?success=true`,
-            cancel_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=false` : `https://${event.subdomain}.einladung.app?success=false`,
+            success_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=true` : `https://${event.subdomain}.${process.env.BASE_URL_DOMAIN}.app?success=true`,
+            cancel_url: process.env.NODE_ENV == "development" ? `http://localhost:8080/event/${event.subdomain}?success=false` : `https://${event.subdomain}.${process.env.BASE_URL_DOMAIN}.app?success=false`,
         });
 
         res.send({ "sessionUrl": session.url })
