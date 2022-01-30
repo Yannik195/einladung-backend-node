@@ -103,7 +103,7 @@ router.post("/buy-ticket", async (req, res) => {
 })
 
 const calcApplicationFeeAmount = function (price) {
-    return Math.round(price * 0.03 + 20)
+    return Math.round(price * 0.044 + 45)
 }
 
 exports.router = router
