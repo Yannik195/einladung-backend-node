@@ -1,5 +1,5 @@
 const router = require("express").Router()
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const auth = require("../verifyToken")
 
 router.get("/", auth, async (req, res) => {

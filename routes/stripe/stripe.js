@@ -1,7 +1,7 @@
 const Event = require("../../model/Event")
 const Organizer = require("../../model/Organizer")
 const router = require("express").Router()
-const stripe = require('stripe')(process.env.STRIPE_SECRET);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const auth = require("../verifyToken")
 
 //Create a new account
