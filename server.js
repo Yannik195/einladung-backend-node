@@ -30,6 +30,10 @@ app.use(cors({
         'https://www.einladung.app',
         'https://*.einladung.app',
         /\.einladung\.app$/,
+        'https://invitely.app',
+        'https://www.invitely.app',
+        'https://*.invitely.app',
+        /\.invitely\.app$/,
     ],
     credentials: true,
     exposedHeaders: ['set-cookie']
