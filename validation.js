@@ -5,6 +5,7 @@ const validateRegister = body => {
     const schema = Joi.object({
         firstname: Joi.string(),
         lastname: Joi.string(),
+        company: Joi.any().optional(),
         email: Joi.string().min(6).required().email(),
         password: Joi.string().min(6).required()
     })
