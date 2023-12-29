@@ -9,56 +9,57 @@ const MongoStore = require("connect-mongo")
 const app = express()
 
 app.use(session({
-    secret: process.env.TOKEN_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({
-        mongoUrl: process.env.DB_CONNECT,
-    }),
-    cookie: {
-        maxAge: 1000 * 60 * 24,
-        httpOnly: false,
-    }
+  secret: process.env.TOKEN_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: process.env.DB_CONNECT,
+  }),
+  cookie: {
+    maxAge: 1000 * 60 * 24,
+    httpOnly: false,
+  }
 }));
 
 //CORS
 app.use(cors({
-    origin: [
-        'http://localhost:8080',
-        'http://localhost:8081',
-        'https://einladung.app',
-        'https://www.einladung.app',
-        'https://*.einladung.app',
-        /\.einladung\.app$/,
-        'https://invitely.app',
-        'https://www.invitely.app',
-        'https://*.invitely.app',
-        /\.invitely\.app$/,
-    ],
-    credentials: true,
-    exposedHeaders: ['set-cookie']
+  origin: [
+    '*',
+    'http://localhost:8080',
+    'http://localhost:8081',
+    'https://einladung.app',
+    'https://www.einladung.app',
+    'https://*.einladung.app',
+    /\.einladung\.app$/,
+    'https://invitely.app',
+    'https://www.invitely.app',
+    'https://*.invitely.app',
+    /\.invitely\.app$/,
+  ],
+  credentials: true,
+  exposedHeaders: ['set-cookie']
 }));
 
 app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin: http://localhost:8080");
-    res.header("Access-Control-Allow-Credentials: true");
-    res.header("Access-Control-Allow-Methods: GET, POST");
-    res.header("Access-Control-Allow-Headers: Content-Type, *");
-    next();
+  res.header("Access-Control-Allow-Origin: http://localhost:8080");
+  res.header("Access-Control-Allow-Credentials: true");
+  res.header("Access-Control-Allow-Methods: GET, POST");
+  res.header("Access-Control-Allow-Headers: Content-Type, *");
+  next();
 });
 
 //connect to db
 mongoose.connect(process.env.DB_CONNECT,
-    () => console.log("Connected to MongoDB"))
+  () => console.log("Connected to MongoDB"))
 
 // Use JSON parser for all non-webhook routes
 app.use((req, res, next) => {
-    console.log(req.originalUrl)
-    if (req.originalUrl.startsWith("/api/stripe/webhook")) {
-        next();
-    } else {
-        bodyParser.json()(req, res, next);
-    }
+  console.log(req.originalUrl)
+  if (req.originalUrl.startsWith("/api/stripe/webhook")) {
+    next();
+  } else {
+    bodyParser.json()(req, res, next);
+  }
 });
 
 
